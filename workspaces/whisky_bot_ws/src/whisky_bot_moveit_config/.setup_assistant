@@ -1,0 +1,23 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: whisky_bot_description
+    relative_path: urdf/whisky_bot.urdf.xacro
+  srdf:
+    relative_path: config/whisky_bot.srdf
+  package_settings:
+    author_name: LuisSanchez
+    author_email: todo@todo.com
+    generated_timestamp: 1789245396
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
+  modified_urdf:
+    xacros:
+      - control_xacro
+  control_xacro:
+    command:
+      - position
+    state:
+      - position
