@@ -1,0 +1,5 @@
+ros2 launch urdf_tutorial display.launch.py model:=/home/luis/ros2/whisky_bot_ws/src/whisky_bot_description/urdf/whisky_bot.urdf.xacro rvizconfig:=/home/luis/ros2/whisky_bot_ws/src/whisky_bot_description/rviz/custom_config.rviz
+
+colcon build
+source install/setup.bash
+ros2 launch whisky_bot_description display.launch.xml

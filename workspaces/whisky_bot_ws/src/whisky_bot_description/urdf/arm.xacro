@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-
+    <!-- links -->
     <link name="base_link">
         <visual>
             <geometry>
@@ -26,7 +26,7 @@
             <geometry>
                 <mesh filename="package://whisky_bot_description/meshes/type2.stl" scale="0.001 0.001 0.001"/>
             </geometry>
-            <origin xyz="-0.0125 -0.055 0" rpy="0 ${pi/2} 0"/>
+            <origin xyz="${-1*link_dim2/2} ${-1*link_dim1} 0" rpy="0 ${pi/2} 0"/>
             <material name="blue" />
         </visual>
     </link>
@@ -34,7 +34,7 @@
     <link name="motor2">
         <visual>
             <geometry>
-                <cylinder length="0.052" radius="0.013"/>
+                <cylinder length="${link_dim1}" radius="0.013"/>
             </geometry>
             <origin xyz="0 0 0" rpy="0 ${pi/2} 0"/>
             <material name="red" />
@@ -46,7 +46,7 @@
             <geometry>
                 <mesh filename="package://whisky_bot_description/meshes/type2.stl" scale="0.001 0.001 0.001"/>
             </geometry>
-            <origin xyz="${-0.052/2} -0.055 -0.0125" rpy="0 0 0"/>
+            <origin xyz="${-1*link_dim3/2} ${-1*link_dim1} ${-1*link_dim2/2}" rpy="0 0 0"/>
             <material name="blue" />
         </visual>
     </link>
@@ -56,7 +56,7 @@
             <geometry>
                 <mesh filename="package://whisky_bot_description/meshes/type2.stl" scale="0.001 0.001 0.001"/>
             </geometry>
-            <origin xyz="${-0.052/2} 0.055 0.0125" rpy="${pi} 0 0"/>
+            <origin xyz="${-1*link_dim3/2} ${link_dim1} ${link_dim2/2}" rpy="${pi} 0 0"/>
             <material name="blue" />
         </visual>
     </link>
@@ -64,10 +64,40 @@
     <link name="motor3">
         <visual>
             <geometry>
-                <box size="0.063 0.050 0.025"/>
+                <box size="${link_dim1} 0.050 ${link_dim2}"/>
             </geometry>
-            <origin xyz="0 -0.01 0" rpy="0 0 ${pi/2}"/>
+            <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
             <material name="red" />
+        </visual>
+    </link>
+
+    <link name="link5">
+        <visual>
+            <geometry>
+                <mesh filename="package://whisky_bot_description/meshes/type2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="${-1*link_dim1/2} ${1.3*link_dim1} ${link_dim2/2}" rpy="${pi} 0 0"/>
+            <material name="blue" />
+        </visual>
+    </link>
+
+    <link name="motor4">
+        <visual>
+            <geometry>
+                <box size="${link_dim1} 0.050 ${link_dim2}"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+            <material name="red" />
+        </visual>
+    </link>
+
+    <link name="link6">
+        <visual>
+            <geometry>
+                <mesh filename="package://whisky_bot_description/meshes/type2.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="${-1*link_dim1/2} ${-1*link_dim1/2} ${link_dim2/2}" rpy="${pi} 0 0"/>
+            <material name="blue" />
         </visual>
     </link>
 
@@ -75,7 +105,7 @@
     <joint name="joint1" type="fixed">
         <parent link="base_link"/>
         <child link="link1"/>
-        <origin xyz="0.075 0.055 0.0475" rpy="0 0 0"/>
+        <origin xyz="0.075 ${link_dim1} 0.0475" rpy="0 0 0"/>
         <axis xyz="0 0 0"/>
     </joint>
 
@@ -90,7 +120,7 @@
     <joint name="joint3" type="fixed">
         <parent link="link2"/>
         <child link="motor2"/>
-        <origin xyz="0 -0.025 0.0125" rpy="0 0 0"/>
+        <origin xyz="0 ${-1*link_dim2} ${link_dim2/2}" rpy="0 0 0"/>
         <axis xyz="0 0 0"/>
     </joint>
 
@@ -105,9 +135,7 @@
     <joint name="joint5" type="fixed">
         <parent link="link3"/>
         <child link="link4"/>
-        <!-- <origin xyz="0 ${2*-0.055} 0" rpy="${pi} 0 0"/> -->
-        <!-- <origin xyz="${-0.052/2} -0.055 0" rpy="0 0 0"/> -->
-        <origin xyz="0 ${-2*0.055} 0" rpy="0 0 0"/>
+        <origin xyz="0 ${-2*link_dim1} 0" rpy="0 0 0"/>
     </joint>
 
     <joint name="joint6" type="revolute">
@@ -116,6 +144,28 @@
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <axis xyz="1 0 0"/>
         <limit lower="-0.8" upper="${pi/2}" effort="1000.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="joint7" type="fixed">
+        <parent link="motor3"/>
+        <child link="link5"/>
+        <origin xyz="0 ${-2*link_dim1} 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="joint8" type="revolute">
+        <parent link="link5"/>
+        <child link="motor4"/>
+        <origin xyz="0 ${link_dim2/2} 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="${-pi/2}" upper="0.8" effort="1000.0" velocity="1.0"/>
+    </joint>
+
+    <joint name="joint9" type="revolute">
+        <parent link="motor4"/>
+        <child link="link6"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${-pi/2}" upper="0.8" effort="1000.0" velocity="1.0"/>
     </joint>
 
 </robot>
