@@ -1,0 +1,28 @@
+<launch>
+    <!-- Path to URDF description -->
+    <let name="urdf_path"
+    value="$(find-pkg-share whisky_bot_description)/urdf/whisky_bot.urdf.xacro"/>
+
+    <let name="rviz_config_path"
+    value="$(find-pkg-share whisky_bot_description)/rviz/urdf_config.rviz"/>
+
+    <node pkg="robot_state_publisher" exec="robot_state_publisher">
+        <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+    </node>
+
+    <!-- Controllers -->
+    <!-- ros2_controllers -->
+    <node pkg="controller_manager" exec="ros2_control_node">
+        <param from="$(find-pkg-share whisky_bot_bringup)/config/ros2_controllers.yaml"/>
+    </node>
+
+    <!-- Controllers inside ros2_controllers.yaml -->
+    <node pkg="controller_manager" exec="spawner" args="arm_controller"/>
+    <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster"/>
+
+    <!-- MoveIt! -->
+    <include file="$(find-pkg-share whisky_bot_moveit_config)/launch/move_group.launch.py"/>
+
+    <!-- RViz -->
+    <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" args="-d $(var rviz_config_path)"/>
+</launch>

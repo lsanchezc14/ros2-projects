@@ -3,5 +3,7 @@
 
     <xacro:include filename="common_properties.xacro" />
     <xacro:include filename="arm.xacro" />
+    <xacro:include filename="arm.ros2_control.xacro" />
+    <xacro:include filename="whisky_bot.ros2_control.xacro"/>
 
 </robot>
