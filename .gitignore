@@ -8,6 +8,7 @@
 *.Identifier
 
 .vscode/*
+browse*
 !.vscode/extensions.json
 !.vscode/settings.json
 

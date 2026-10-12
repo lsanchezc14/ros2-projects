@@ -1,0 +1,10 @@
+<library path="whisky_bot_hardware">
+  <class
+    name="whisky_bot_hardware/Pca9685SystemInterface"
+    type="whisky_bot_hardware::Pca9685SystemInterface"
+    base_class_type="hardware_interface::SystemInterface">
+    <description>
+      PCA9685 position-servo hardware interface using the Linux I2C device API.
+    </description>
+  </class>
+</library>
