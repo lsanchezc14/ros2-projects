@@ -1,42 +1,89 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <ros2_control name="WhiskyBotHardwareInterface" type="system">
-        <hardware>
-            <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-            <plugin>mock_components/GenericSystem</plugin>
-            <param name="calculate_dynamics">true</param>
+  <xacro:arg name="use_mock_hardware" default="true"/>
+  <xacro:arg name="i2c_bus" default="1"/>
+  <xacro:arg name="i2c_address" default="0x40"/>
 
-        </hardware>
-        <joint name="joint2">
-            <command_interface name="position"/>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-        </joint>
-        <joint name="joint4">
-            <command_interface name="position"/>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-        </joint>
-        <joint name="joint6">
-            <command_interface name="position"/>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-        </joint>
-        <joint name="joint8">
-            <command_interface name="position"/>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-        </joint>
-        <joint name="joint9">
-            <command_interface name="position"/>
-            <state_interface name="position">
-                <param name="initial_value">0.0</param>
-            </state_interface>
-        </joint>
-    </ros2_control>
+  <ros2_control name="WhiskyBotHardwareInterface" type="system">
+    <hardware>
+      <xacro:if value="$(arg use_mock_hardware)">
+        <plugin>mock_components/GenericSystem</plugin>
+        <param name="calculate_dynamics">true</param>
+      </xacro:if>
+      <xacro:unless value="$(arg use_mock_hardware)">
+        <plugin>whisky_bot_hardware/Pca9685SystemInterface</plugin>
+        <param name="i2c_bus">$(arg i2c_bus)</param>
+        <param name="i2c_address">$(arg i2c_address)</param>
+        <param name="pwm_frequency_hz">50.0</param>
+        <param name="oscillator_frequency_hz">25000000.0</param>
+      </xacro:unless>
+    </hardware>
+    <!-- Set every pulse limit and direction from the physical servo calibration before hardware use.
+         The zero pulse limits below make the driver reject uncalibrated hardware mode safely. -->
+    <joint name="joint2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="channel">0</param>
+      <param name="position_min_rad">0.0</param>
+      <param name="position_max_rad">3.141592653589793</param>
+      <param name="pulse_min_us">1000.0</param>
+      <param name="pulse_max_us">2000.0</param>
+      <param name="home_position_rad">0.0</param>
+      <param name="invert">false</param>
+    </joint>
+    <joint name="joint4">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="channel">1</param>
+      <param name="position_min_rad">-3.141592653589793</param>
+      <param name="position_max_rad">0.0</param>
+      <param name="pulse_min_us">1000.0</param>
+      <param name="pulse_max_us">2000.0</param>
+      <param name="home_position_rad">0.0</param>
+      <param name="invert">false</param>
+    </joint>
+    <joint name="joint6">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="channel">2</param>
+      <param name="position_min_rad">-0.8</param>
+      <param name="position_max_rad">1.5707963267948966</param>
+      <param name="pulse_min_us">1000.0</param>
+      <param name="pulse_max_us">2000.0</param>
+      <param name="home_position_rad">0.0</param>
+      <param name="invert">false</param>
+    </joint>
+    <joint name="joint8">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="channel">3</param>
+      <param name="position_min_rad">-1.5707963267948966</param>
+      <param name="position_max_rad">0.8</param>
+      <param name="pulse_min_us">1000.0</param>
+      <param name="pulse_max_us">2000.0</param>
+      <param name="home_position_rad">0.0</param>
+      <param name="invert">false</param>
+    </joint>
+    <joint name="joint9">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <param name="channel">4</param>
+      <param name="position_min_rad">-1.5707963267948966</param>
+      <param name="position_max_rad">0.8</param>
+      <param name="pulse_min_us">1000.0</param>
+      <param name="pulse_max_us">2000.0</param>
+      <param name="home_position_rad">0.0</param>
+      <param name="invert">false</param>
+    </joint>
+  </ros2_control>
 </robot>
-

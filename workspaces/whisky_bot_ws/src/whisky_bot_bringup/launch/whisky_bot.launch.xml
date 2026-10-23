@@ -1,4 +1,9 @@
 <launch>
+    <arg name="use_mock_hardware" default="true"
+         description="Use the ros2_control mock system instead of the PCA9685 driver."/>
+    <arg name="i2c_bus" default="1" description="Linux I2C bus number for PCA9685 hardware mode."/>
+    <arg name="i2c_address" default="0x40" description="7-bit PCA9685 I2C address for hardware mode."/>
+
     <!-- Path to URDF description -->
     <let name="urdf_path"
     value="$(find-pkg-share whisky_bot_description)/urdf/whisky_bot.urdf.xacro"/>
@@ -6,14 +11,17 @@
     <let name="rviz_config_path"
     value="$(find-pkg-share whisky_bot_description)/rviz/urdf_config.rviz"/>
 
-    <node pkg="robot_state_publisher" exec="robot_state_publisher">
-        <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+    <!-- Controller manager must receive the same ros2_control description as the state publisher. -->
+    <node pkg="controller_manager" exec="ros2_control_node">
+        <remap from="/controller_manager/robot_description" to="/robot_description"/>
+        <param name="robot_description"
+               value="$(command 'xacro $(var urdf_path) use_mock_hardware:=$(var use_mock_hardware) i2c_bus:=$(var i2c_bus) i2c_address:=$(var i2c_address)')"/>
+        <param from="$(find-pkg-share whisky_bot_bringup)/config/ros2_controllers.yaml"/>
     </node>
 
-    <!-- Controllers -->
-    <!-- ros2_controllers -->
-    <node pkg="controller_manager" exec="ros2_control_node">
-        <param from="$(find-pkg-share whisky_bot_bringup)/config/ros2_controllers.yaml"/>
+    <node pkg="robot_state_publisher" exec="robot_state_publisher">
+        <param name="robot_description"
+               value="$(command 'xacro $(var urdf_path) use_mock_hardware:=$(var use_mock_hardware) i2c_bus:=$(var i2c_bus) i2c_address:=$(var i2c_address)')"/>
     </node>
 
     <!-- Controllers inside ros2_controllers.yaml -->
