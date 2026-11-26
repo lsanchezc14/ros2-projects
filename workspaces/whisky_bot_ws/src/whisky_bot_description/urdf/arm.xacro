@@ -168,7 +168,7 @@
         <child link="link2"/>
         <origin xyz="0 0 ${0.095/2}" rpy="0 0 0"/>
         <axis xyz="0 0 1"/>
-        <limit lower="0" upper="${pi}" effort="1000.0" velocity="1.0"/>
+        <limit lower="0.0" upper="${pi}" effort="1000.0" velocity="1.0"/>
     </joint>
 
     <joint name="joint3" type="fixed">
@@ -182,8 +182,8 @@
         <parent link="motor2"/>
         <child link="link3"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
-        <axis xyz="1 0 0"/>
-        <limit lower="${-pi}" upper="0" effort="1000.0" velocity="1.0"/>
+        <axis xyz="-1 0 0"/>
+        <limit lower="0.0" upper="${pi}" effort="1000.0" velocity="1.0"/>
     </joint>
 
     <joint name="joint5" type="fixed">
@@ -197,7 +197,7 @@
         <child link="motor3"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <axis xyz="1 0 0"/>
-        <limit lower="-0.8" upper="${pi/2}" effort="1000.0" velocity="1.0"/>
+        <limit lower="0.0" upper="${pi}" effort="1000.0" velocity="1.0"/>
     </joint>
 
     <joint name="joint7" type="fixed">
@@ -211,7 +211,7 @@
         <child link="motor4"/>
         <origin xyz="0 ${link_dim2/2} 0" rpy="0 0 0"/>
         <axis xyz="1 0 0"/>
-        <limit lower="${-pi/2}" upper="0.8" effort="1000.0" velocity="1.0"/>
+        <limit lower="0.0" upper="${pi}" effort="1000.0" velocity="1.0"/>
     </joint>
 
     <joint name="joint9" type="revolute">
@@ -219,7 +219,7 @@
         <child link="link6"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
-        <limit lower="${-pi/2}" upper="0.8" effort="1000.0" velocity="1.0"/>
+        <limit lower="0.0" upper="${pi}" effort="1000.0" velocity="1.0"/>
     </joint>
 
 </robot>

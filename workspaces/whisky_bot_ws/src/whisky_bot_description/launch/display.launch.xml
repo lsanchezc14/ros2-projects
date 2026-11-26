@@ -9,6 +9,12 @@
     <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
     </node>
 
-    <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui"/>
+    <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui">
+        <param name="zeros.joint2" value="1.57"/>
+        <param name="zeros.joint4" value="1.57"/>
+        <param name="zeros.joint6" value="1.57"/>
+        <param name="zeros.joint8" value="1.57"/>
+        <param name="zeros.joint9" value="1.57"/>
+    </node>
     <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen" args="-d $(var rviz_config_path)"/>
 </launch>
